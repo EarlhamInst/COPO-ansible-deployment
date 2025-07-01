@@ -1,0 +1,21 @@
+ei-copo-demo-sm ansible_user=kud ansible_python_interpreter=/usr/bin/python3
+ei-copo-demo-frontend ansible_user=kud ansible_python_interpreter=/usr/bin/python3
+ei-copo-demo-service ansible_user=kud ansible_python_interpreter=/usr/bin/python3
+
+[swarm_manager_vms]
+ei-copo-demo-sm
+
+[service_vms]
+ei-copo-demo-service
+
+[frontend_vms]
+ei-copo-demo-frontend
+
+[swarm_workers_vms]
+ei-copo-demo-frontend
+ei-copo-demo-service
+
+[all_vms]
+ei-copo-demo-frontend
+ei-copo-demo-service
+ei-copo-demo-sm

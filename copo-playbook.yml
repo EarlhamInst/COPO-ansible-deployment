@@ -83,13 +83,13 @@
     #       - 10.12.1.0/26 10.0.72.111
     #     state: present
 
-    - name: Add mount point
-      ansible.posix.mount:
-        src: "{{ mount['remote_path'] }}"
-        path: "{{ mount['local_path'] }}"
-        opts: "rw,vers=3"
-        fstype: nfs
-        state: mounted
+    #- name: Add mount point
+    #  ansible.posix.mount:
+    #    src: "{{ mount['remote_path'] }}"
+    #    path: "{{ mount['local_path'] }}"
+    #    opts: "rw,vers=3"
+    #    fstype: nfs
+    #    state: mounted
  
     - name: mount b2drop
       ansible.builtin.shell: |
@@ -125,6 +125,14 @@
         join_token: "{{ hostvars[groups['swarm_manager_vms'][0]]['sm_init_result']['swarm_facts']['JoinTokens']['Worker'] }}"
         remote_addrs: ["{{ hostvars[groups['swarm_manager_vms'][0]]['ansible_eth0']['ipv4']['address'] + ':2377' }}"]
       when: "'swarm_workers_vms' in group_names"
+
+    - name: Add mount point
+      ansible.posix.mount:
+        src: "{{ mount['remote_path'] }}"
+        path: "{{ mount['local_path'] }}"
+        opts: "rw,vers=3"
+        fstype: nfs
+        state: mounted
 
     - name: createVolume
       community.docker.docker_volume:
@@ -183,10 +191,16 @@
       state: present
     loop: "{{ swarm_certificate_secrets | dict2items }}"
     no_log: true
-  - name: copy copo compose file 
+  - name: copy copo compose production file 
+    ansible.builtin.copy:
+      src:  copo.compose.production.yaml
+      dest: /opt/docker-compose.yml
+    when: "is_production "
+  - name: copy copo compose file
     ansible.builtin.copy:
       src:  copo.compose.yaml
       dest: /opt/docker-compose.yml
+    when: "not is_production "
   - name: deploy copo
     community.docker.docker_stack:
       state: present
