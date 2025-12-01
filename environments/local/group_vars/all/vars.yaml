@@ -1,0 +1,3 @@
+mount:
+  remote_path : stateless.apricot1.cyverseuk.org:/CyVerse-iRODS/exports/copo_data/copo_test
+  local_path: /mnt/copo-data

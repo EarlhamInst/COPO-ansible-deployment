@@ -32,11 +32,11 @@
           - net-tools 
     - name: Add Docker GPG apt Key
       ansible.builtin.apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
+        url: https://download.docker.com/linux/{{ansible_distribution | lower}}/gpg
         state: present
     - name: Add Docker Repository
       apt_repository:
-        repo: deb https://download.docker.com/linux/ubuntu noble stable
+        repo: deb https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release | lower }}  stable
         state: present
     - name: Install docker
       ansible.builtin.package:
@@ -114,6 +114,7 @@
 
     - name: Initial swarm manager
       community.docker.docker_swarm:
+         advertise_addr: "eth1"
          state: present
       when: "'swarm_manager_vms' in group_names " 
       register: sm_init_result   
@@ -123,7 +124,7 @@
         state: join
         advertise_addr: "{{ inventory_hostname }}"
         join_token: "{{ hostvars[groups['swarm_manager_vms'][0]]['sm_init_result']['swarm_facts']['JoinTokens']['Worker'] }}"
-        remote_addrs: ["{{ hostvars[groups['swarm_manager_vms'][0]]['ansible_eth0']['ipv4']['address'] + ':2377' }}"]
+        remote_addrs: ["{{ hostvars[groups['swarm_manager_vms'][0]]['ansible_eth1']['ipv4']['address'] + ':2377' }}"]
       when: "'swarm_workers_vms' in group_names"
 
     - name: Add mount point

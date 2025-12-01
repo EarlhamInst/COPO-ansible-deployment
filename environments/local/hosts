@@ -1,0 +1,22 @@
+sm-vm ansible_user=root
+service-vm ansible_user=root
+frontend-vm ansible_user=root
+ansible-vm ansible_user=root
+
+[swarm_manager_vms]
+sm-vm
+
+[service_vms]
+service-vm
+
+[frontend_vms]
+frontend-vm
+
+[swarm_workers_vms]
+service-vm
+frontend-vm
+
+[all_vms]
+sm-vm
+service-vm
+frontend-vm

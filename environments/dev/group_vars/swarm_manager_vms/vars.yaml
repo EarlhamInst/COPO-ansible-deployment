@@ -21,6 +21,8 @@ swarm_secrets:
   minio_access_key: "{{vault_minio_access_key}}"
   minio_secret_key: "{{vault_minio_secret_key}}"
   copo_zenodo_token: "{{vault_zenodo_token}}"
+  sapio_username: "{{vault_sapio_username}}"
+  sapio_password: "{{vault_sapio_password}}"
 swarm_certificate_secrets:
   copo_project.crt: "{{vault_copo_project_crt}}"
   copo_project.key: "{{vault_copo_project_key}}"

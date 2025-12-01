@@ -1,0 +1,3 @@
+volumes:
+  web-data: /mnt/copo-data/dev_copo/web-data
+  logs-data: /mnt/copo-data/dev_copo/logs-data
